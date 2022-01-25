@@ -117,11 +117,12 @@ if not args.task:
 
 # TODO: over time, we need to fix the skew of the following tasks
 skew_exclusion = [
-    "050", "838", "1489", "150", "265", "027", "202", "200", "903"
+    "050", "838", "150", "265"
 ]
 
-contributors = {}
-
+contributor_stats = {}
+categories_stats = {}
+domain_stats = {}
 for file in files[begin_task_number:end_task_number + 1]:
     if ".json" in file:
         print(f" --> testing file: {file}")
@@ -152,14 +153,24 @@ for file in files[begin_task_number:end_task_number + 1]:
             for c in data['Categories']:
                 if c not in all_categories:
                     print(f'⚠️ WARNING: Did not find category `{c}`')
+
+                if c not in categories_stats:
+                    categories_stats[c] = 0
+                categories_stats[c] += 1
+
             if "Domains" in data:
                 assert type(data['Domains']) == list, f'Domains must be a list.'
                 for d in data['Domains']:
                     assert d in hierarchy_content, f'Did not find domain `{d}`'
+                    if d not in domain_stats:
+                        domain_stats[d] = 0
+                    domain_stats[d] += 1
 
             assert type(data['Input_language']) == list, f'Input_language must be a list of strings.'
             assert type(data['Output_language']) == list, f'Output_language must be a list of strings.'
             assert type(data['Instruction_language']) == list, f'Output_language must be a list of strings.'
+            assert all((lan in data['Definition']) for lan in data['Input_language'] if
+                       lan != 'English'), f'Definition must contain non-English tasks language.'
 
             assert 'instruction_language' not in data, f'Found `instruction_language`, but expected `Instruction_language`.'
             assert 'input_language' not in data, f'Found `input_language`, but expected `Input_language`.'
@@ -245,13 +256,24 @@ for file in files[begin_task_number:end_task_number + 1]:
                                 f'the task file `tasks/README.md`')
 
             for c in data['Contributors']:
-                if c not in contributors:
-                    contributors[c] = 0
-                contributors[c] += 1
+                if c not in contributor_stats:
+                    contributor_stats[c] = 0
+                contributor_stats[c] += 1
 
 print("Did not find any errors! ✅")
 
-keyvalues = sorted(list(contributors.items()), key=lambda x: x[1])
+print("\n  - - - - - Contributors >= 25 tasks - - - - - ")
+keyvalues = sorted(list(contributor_stats.items()), key=lambda x: x[1])
 for author, count in keyvalues:
     if count >= 25:
         print(f" ✍️ {author} -> {count}")
+
+print("\n  - - - - - Category Stats - - - - - ")
+keyvalues = sorted(list(categories_stats.items()), key=lambda x: x[1])
+for cat, count in categories_stats.items():
+    print(f" ✍️ {cat} -> {count}")
+
+print("\n  - - - - - Domain Stats - - - - - ")
+keyvalues = sorted(list(domain_stats.items()), key=lambda x: x[1])
+for dom, count in domain_stats.items():
+    print(f" ✍️ {dom} -> {count}")

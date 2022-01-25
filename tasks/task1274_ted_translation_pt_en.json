@@ -17,9 +17,10 @@
     "Instruction_language": [
         "English"
     ],
-    "Definition": "You are given a sentence in Portugese. Your job is to translate the Portugese sentence into English.",
+    "Definition": "You are given a sentence in Portuguese. Your job is to translate the Portuguese sentence into English.",
     "Domains": [
-        "TED Talks"
+        "TED Talks",
+        "Captions -> Video Captions"
     ],
     "Positive Examples": [
         {

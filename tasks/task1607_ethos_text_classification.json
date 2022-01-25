@@ -3,11 +3,15 @@
         "Srija Macherla"
     ],
     "Source": [
-        "ethos",
-        "https://huggingface.co/datasets/ethos"
+        "ethos https://huggingface.co/datasets/ethos"
     ],
     "Categories": [
-        "Text Classification"
+        "Detection -> Toxicity Detection -> Abuse Detection ->  Religious Abuse Detection",
+        "Classification -> Verification",
+        "Reasoning -> Commonsense Reasoning -> Social Situations"
+    ],
+  	"Domains":[
+  	    "Social Media"
     ],
     "Input_language": [
         "English"
@@ -18,7 +22,7 @@
     "Instruction_language": [
         "English"
     ],
-    "Definition": "This task classifies the text if a religion or a person/group of people are receiving 'religious hate' or 'not religious hate'",
+    "Definition": "You are given a piece of text. Your task is to classify the text based on whether a religion or a person/group of people are receiving hate based on religion. If there is a hate based on religion in the text, answer with 'religious hate', otherwise, answer with 'not religious hate'.",
     "Positive Examples": [
         {
             "input": "Religions have stupid theories about God and shits.",
